@@ -1,0 +1,94 @@
+----------------------------------------
+target: patch_flow.trainer_radiomap.RadiomapBandFlowTrainer
+params:
+  model:
+    target: patch_flow.models.band_unet.FrequencyBandUNet
+    params:
+      num_bands: 16
+      base_channels: 64
+      channel_multipliers:
+      - 1
+      - 2
+      - 4
+      - 4
+      condition_channels:
+      - 32
+      - 64
+      - 128
+      - 128
+      time_embedding_dim: 32
+      dropout: 0.0
+      gradient_checkpointing: true
+  decomposer:
+    target: patch_flow.radial_frequency_bands.FixedRadialBandDecomposer
+    params:
+      artifact_path: /home/rw/patch_matching/analysis_results/radiomapseer_train_bands_seed42/band_masks.npz
+      spectral_mix_rho: 0.0
+      mean_center: 0.27602527060913873
+      mean_scale: 0.07821975390838161
+  flow:
+    target: patch_flow.band_flow.FrequencyBandFlow
+    params:
+      num_bands: 16
+      timestep_sampler:
+        target: patch_flow.radiomap_time_sampling.StructuredBandTimeSampler
+        params:
+          num_bands: 16
+          probabilities:
+          - 0.2
+          - 0.2
+          - 0.25
+          - 0.15
+          - 0.2
+          max_ratio: 4.0
+          low_frequency_probability: 0.5
+  input_key: image
+  building_key: building
+  tx_key: tx
+  lr: 0.0001
+  weight_decay: 0.0001
+  ema_rate: 0.999
+  uncertainty_weight: 0.01
+  mean_weight: 0.2
+  logvar_min: -12.0
+  logvar_max: 8.0
+  validation_seed: 42
+  lr_scheduler_cfg:
+    name: cosine
+    target: jutils.nn.lr_schedulers.get_cosine_schedule_with_warmup
+    params:
+      num_warmup_steps: 500
+      num_training_steps: 50000
+      num_cycles: 0.5
+
+----------------------------------------
+Command         : python train.py experiment=radiomapseer-band-rho0 name=diagnostics/radiomapseer/rho0-final-100step train_params.max_steps=100 train_params.val_check_interval=50 train_params.limit_val_batches=4 checkpoint_params.every_n_train_steps=100 data.params.train_stream_samples=6400
+Name            : diagnostics/radiomapseer/rho0-final-100step/2026-09-27/T191116
+Log dir         : logs/diagnostics/radiomapseer/rho0-final-100step/2026-09-27/T191116
+Trainer Module  : patch_flow.trainer_radiomap.RadiomapBandFlowTrainer
+Params          : 15,730,241
+Data            : RadioMapSeer_DPM_seed42_600_50_50
+Batchsize       : 32
+Devices         : 1
+Num nodes       : 1
+Gradient accum  : 1
+Global batchsize: 32
+Val samples     : 64
+LR              : 0.00010
+LR scheduler    : cosine
+Resume ckpt     : None
+Load weights    : None
+Profiling       : None
+Precision       : bf16-mixed
+----------------------------------------
+Training:   0%|          | 0/200 [00:00<?, ?it/s]Training:   0%|          | 1/200 [00:01<04:27,  0.74it/s]Training:   1%|          | 2/200 [00:01<02:43,  1.21it/s]Training:   2%|▏         | 3/200 [00:02<02:10,  1.51it/s]Training:   2%|▏         | 4/200 [00:02<01:54,  1.72it/s]Training:   2%|▎         | 5/200 [00:03<01:45,  1.86it/s]Training:   3%|▎         | 6/200 [00:03<01:39,  1.95it/s]Training:   4%|▎         | 7/200 [00:04<01:35,  2.02it/s]Training:   4%|▍         | 8/200 [00:04<01:33,  2.06it/s]Training:   4%|▍         | 9/200 [00:05<01:31,  2.09it/s]Training:   5%|▌         | 10/200 [00:05<01:29,  2.11it/s]Training:   6%|▌         | 11/200 [00:05<01:28,  2.13it/s]Training:   6%|▌         | 12/200 [00:06<01:28,  2.14it/s]Training:   6%|▋         | 13/200 [00:06<01:27,  2.14it/s]Training:   7%|▋         | 14/200 [00:07<01:26,  2.15it/s]Training:   8%|▊         | 15/200 [00:07<01:25,  2.15it/s]Training:   8%|▊         | 16/200 [00:08<01:25,  2.16it/s]Training:   8%|▊         | 17/200 [00:08<01:24,  2.16it/s]Training:   9%|▉         | 18/200 [00:09<01:24,  2.16it/s]Training:  10%|▉         | 19/200 [00:09<01:23,  2.16it/s]Training:  10%|█         | 20/200 [00:10<01:23,  2.16it/s]Training:  10%|█         | 21/200 [00:10<01:22,  2.16it/s]Training:  11%|█         | 22/200 [00:11<01:22,  2.16it/s]Training:  12%|█▏        | 23/200 [00:11<01:21,  2.16it/s]Training:  12%|█▏        | 24/200 [00:11<01:21,  2.16it/s]Training:  12%|█▎        | 25/200 [00:12<01:20,  2.16it/s]Training:  13%|█▎        | 26/200 [00:12<01:20,  2.16it/s]Training:  14%|█▎        | 27/200 [00:13<01:20,  2.16it/s]Training:  14%|█▍        | 28/200 [00:13<01:19,  2.16it/s]Training:  14%|█▍        | 29/200 [00:14<01:19,  2.16it/s]Training:  15%|█▌        | 30/200 [00:14<01:18,  2.16it/s]Training:  16%|█▌        | 31/200 [00:15<01:18,  2.16it/s]Training:  16%|█▌        | 32/200 [00:15<01:17,  2.16it/s]Training:  16%|█▋        | 33/200 [00:16<01:17,  2.16it/s]Training:  17%|█▋        | 34/200 [00:16<01:16,  2.16it/s]Training:  18%|█▊        | 35/200 [00:17<01:16,  2.16it/s]Training:  18%|█▊        | 36/200 [00:17<01:15,  2.16it/s]Training:  18%|█▊        | 37/200 [00:17<01:15,  2.16it/s]Training:  19%|█▉        | 38/200 [00:18<01:14,  2.16it/s]Training:  20%|█▉        | 39/200 [00:18<01:14,  2.16it/s]Training:  20%|██        | 40/200 [00:19<01:14,  2.16it/s]Training:  20%|██        | 41/200 [00:19<01:13,  2.16it/s]Training:  21%|██        | 42/200 [00:20<01:13,  2.16it/s]Training:  22%|██▏       | 43/200 [00:20<01:12,  2.16it/s]Training:  22%|██▏       | 44/200 [00:21<01:12,  2.16it/s]Training:  22%|██▎       | 45/200 [00:21<01:11,  2.16it/s]Training:  23%|██▎       | 46/200 [00:22<01:11,  2.16it/s]Training:  24%|██▎       | 47/200 [00:22<01:10,  2.16it/s]Training:  24%|██▍       | 48/200 [00:23<01:10,  2.16it/s]Training:  24%|██▍       | 49/200 [00:23<01:09,  2.16it/s]
+Validation 50:   0%|          | 0/4 [00:00<?, ?it/s][A
+Validation 50:  25%|██▌       | 1/4 [00:00<00:00,  3.08it/s][A
+Validation 50:  75%|███████▌  | 3/4 [00:00<00:00,  7.10it/s][AValidation 50: 100%|██████████| 4/4 [00:00<00:00,  7.22it/s]
+Training:  25%|██▌       | 50/200 [00:24<01:34,  1.59it/s]Training:  26%|██▌       | 51/200 [00:25<01:26,  1.72it/s]Training:  26%|██▌       | 52/200 [00:25<01:20,  1.84it/s]Training:  26%|██▋       | 53/200 [00:25<01:16,  1.92it/s]Training:  27%|██▋       | 54/200 [00:26<01:13,  1.99it/s]Training:  28%|██▊       | 55/200 [00:26<01:11,  2.04it/s]Training:  28%|██▊       | 56/200 [00:27<01:09,  2.07it/s]Training:  28%|██▊       | 57/200 [00:27<01:08,  2.10it/s]Training:  29%|██▉       | 58/200 [00:28<01:07,  2.11it/s]Training:  30%|██▉       | 59/200 [00:28<01:06,  2.13it/s]Training:  30%|███       | 60/200 [00:29<01:05,  2.14it/s]Training:  30%|███       | 61/200 [00:29<01:04,  2.14it/s]Training:  31%|███       | 62/200 [00:30<01:04,  2.15it/s]Training:  32%|███▏      | 63/200 [00:30<01:03,  2.15it/s]Training:  32%|███▏      | 64/200 [00:31<01:03,  2.15it/s]Training:  32%|███▎      | 65/200 [00:31<01:02,  2.15it/s]Training:  33%|███▎      | 66/200 [00:31<01:02,  2.15it/s]Training:  34%|███▎      | 67/200 [00:32<01:01,  2.16it/s]Training:  34%|███▍      | 68/200 [00:32<01:01,  2.16it/s]Training:  34%|███▍      | 69/200 [00:33<01:00,  2.16it/s]Training:  35%|███▌      | 70/200 [00:33<01:00,  2.16it/s]Training:  36%|███▌      | 71/200 [00:34<00:59,  2.16it/s]Training:  36%|███▌      | 72/200 [00:34<00:59,  2.16it/s]Training:  36%|███▋      | 73/200 [00:35<00:58,  2.16it/s]Training:  37%|███▋      | 74/200 [00:35<00:58,  2.16it/s]Training:  38%|███▊      | 75/200 [00:36<00:57,  2.16it/s]Training:  38%|███▊      | 76/200 [00:36<00:57,  2.16it/s]Training:  38%|███▊      | 77/200 [00:37<00:57,  2.16it/s]Training:  39%|███▉      | 78/200 [00:37<00:56,  2.16it/s]Training:  40%|███▉      | 79/200 [00:38<00:56,  2.16it/s]Training:  40%|████      | 80/200 [00:38<00:55,  2.16it/s]Training:  40%|████      | 81/200 [00:38<00:55,  2.16it/s]Training:  41%|████      | 82/200 [00:39<00:54,  2.16it/s]Training:  42%|████▏     | 83/200 [00:39<00:54,  2.16it/s]Training:  42%|████▏     | 84/200 [00:40<00:53,  2.16it/s]Training:  42%|████▎     | 85/200 [00:40<00:53,  2.16it/s]Training:  43%|████▎     | 86/200 [00:41<00:52,  2.16it/s]Training:  44%|████▎     | 87/200 [00:41<00:52,  2.16it/s]Training:  44%|████▍     | 88/200 [00:42<00:51,  2.16it/s]Training:  44%|████▍     | 89/200 [00:42<00:51,  2.16it/s]Training:  45%|████▌     | 90/200 [00:43<00:50,  2.16it/s]Training:  46%|████▌     | 91/200 [00:43<00:50,  2.16it/s]Training:  46%|████▌     | 92/200 [00:44<00:50,  2.16it/s]Training:  46%|████▋     | 93/200 [00:44<00:49,  2.16it/s]Training:  47%|████▋     | 94/200 [00:44<00:49,  2.16it/s]Training:  48%|████▊     | 95/200 [00:45<00:48,  2.16it/s]Training:  48%|████▊     | 96/200 [00:45<00:48,  2.16it/s]Training:  48%|████▊     | 97/200 [00:46<00:47,  2.16it/s]Training:  49%|████▉     | 98/200 [00:46<00:47,  2.16it/s]Training:  50%|████▉     | 99/200 [00:47<00:46,  2.16it/s]Save checkpoint to logs/diagnostics/radiomapseer/rho0-final-100step/2026-09-27/T191116/checkpoints/step000100.ckpt
+
+Validation 100:   0%|          | 0/4 [00:00<?, ?it/s][A
+Validation 100:  25%|██▌       | 1/4 [00:00<00:00,  7.89it/s][A
+Validation 100:  75%|███████▌  | 3/4 [00:00<00:00, 11.17it/s][AValidation 100: 100%|██████████| 4/4 [00:00<00:00, 11.22it/s]
+Training:  50%|█████     | 100/200 [00:48<01:01,  1.64it/s]Training:  50%|█████     | 100/200 [00:48<00:48,  2.07it/s]
+Finish training after 100 steps.

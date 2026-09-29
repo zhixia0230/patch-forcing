@@ -1,0 +1,23 @@
+{
+  "complete": true,
+  "train_scene_count": 600,
+  "train_sample_count": 48000,
+  "valid_non_dc_samples": 48000,
+  "zero_non_dc_samples": 0,
+  "image_rms": 0.3412817072283871,
+  "image_mean_center": 0.27602527060913873,
+  "image_mean_scale": 0.07821975390838161,
+  "mean_component_rms": 0.28689419637966895,
+  "mean_component_total_energy_fraction": 0.7066713828556391,
+  "non_dc_total_rms": 0.18483756050215158,
+  "non_dc_total_energy_fraction": 0.2933286171443618,
+  "parseval_absolute_error": 1.0408340855860843e-16,
+  "max_inverse_fft_imaginary": 3.529985637594298e-16,
+  "max_reconstruction_error_float64": 6.661338147750939e-16,
+  "reconstruction_rmse_float64": 7.259383074669195e-17,
+  "uint8_roundtrip_failure_pixels": 0,
+  "mask_hash": "67debe6dca9301da87f2f95285667e5d5f68afd80a39b38eef4503a899834d70",
+  "recommended_model_coordinates": "Z_k=B_k/s_raw[k]",
+  "recommended_source_noise": "epsilon_k=P_k(g_k)*sqrt(HW/N_k) in model coordinates",
+  "recommended_raw_source_noise": "s_raw[k]*P_k(g_k)*sqrt(HW/N_k)"
+}

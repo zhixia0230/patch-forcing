@@ -1,0 +1,29 @@
+{
+  "dataset_root": "/home/rw/Downloads/RadioMapSeer",
+  "dpm_root": "/home/rw/Downloads/RadioMapSeer/gain/DPM",
+  "split_manifest": "/home/rw/radiomap1/artifacts/prepared_dpm_core_seed42/splits.json",
+  "split_manifest_sha256": "2a0ebe98d5ba51e8deb66f7af34e492c7cb050b163619eefca3257e75b2649a8",
+  "split_source": "authoritative_seed42_manifest",
+  "training_scene_definition": "old_train + old_val",
+  "train_scene_count": 600,
+  "train_sample_count": 48000,
+  "train_scene_ids_hash": "1fd4f12b7b584defde3422f59105ffb8887fb53f82384503a419632c69c91c71",
+  "excluded_from_statistics": "all authoritative old_test scenes (development validation/test and final test)",
+  "gt_mode": "raw_dpm_01",
+  "representation": "spatial_mean_plus_16_non_dc_radial_fft_bands",
+  "fft_norm": "ortho",
+  "frequency_coordinates": "integer q=ky^2+kx^2 in fftshift layout",
+  "boundary_algorithm": "sequential remaining-energy target; indivisible radial shells",
+  "num_bands": 16,
+  "height": 256,
+  "width": 256,
+  "mask_hash": "67debe6dca9301da87f2f95285667e5d5f68afd80a39b38eef4503a899834d70",
+  "device": "cuda",
+  "dtype": "float64/complex128",
+  "pixel_distribution_sampling": {
+    "seed": 20260927,
+    "samples_per_batch_per_band": 256,
+    "samples_per_band": 192000,
+    "note": "min/max/moments/sign fractions are exact; quantiles use uniform sampled pixels"
+  }
+}

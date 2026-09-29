@@ -1,0 +1,33 @@
+# @package _global_
+defaults:
+  - override /trainer: radiomap-band-flow-macrosync
+  - override /data: radiomapseer-dpm
+  - override /model: band-unet
+  - override /autoencoder: null
+  - override /lr_scheduler: cosine
+
+name: radiomapseer/conditional-band-rho0-macrosync
+spectral_mix_rho: 0.0
+
+data:
+  params:
+    batch_size: 32
+    val_batch_size: 16
+    num_workers: 8
+    train_stream_samples: 400000
+
+train_params:
+  max_steps: 10000
+  accumulate_grad_batches: 1
+  limit_val_batches: 16
+  val_check_interval: 500
+  precision: bf16-mixed
+
+checkpoint_params:
+  every_n_train_steps: 1000
+
+lr_scheduler:
+  params:
+    num_warmup_steps: 500
+    num_training_steps: 50000
+    num_cycles: 0.5

@@ -150,7 +150,7 @@ def main(cfg: DictConfig):
         gradient_accumulation_steps=cfg.train_params.accumulate_grad_batches,
         kwargs_handlers=[ddp_kwargs],
     )
-    seed_everything(2025 + accelerator.process_index)
+    seed_everything(int(cfg.seed) + accelerator.process_index)
     is_rank0 = accelerator.is_main_process
     device = accelerator.device
 

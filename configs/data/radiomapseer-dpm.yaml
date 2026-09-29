@@ -1,0 +1,10 @@
+name: RadioMapSeer_DPM_seed42_600_50_50
+target: patch_flow.radiomap_dataset.RadioMapSeerDataModule
+params:
+  root: ${oc.env:RADIOMAPSEER_ROOT,/home/rw/Downloads/RadioMapSeer}
+  split_manifest: ${oc.env:RADIOMAP_SPLIT_MANIFEST,/home/rw/radiomap1/artifacts/prepared_dpm_core_seed42/splits.json}
+  batch_size: 32
+  val_batch_size: 16
+  num_workers: 8
+  train_stream_samples: 400000
+  seed: 42

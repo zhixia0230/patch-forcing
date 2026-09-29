@@ -1,0 +1,4 @@
+target: patch_flow.band_integrators.BandDualLoopSampler
+params:
+  p: 0.4
+  n_inner: 4

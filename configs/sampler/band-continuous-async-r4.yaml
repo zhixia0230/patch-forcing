@@ -1,0 +1,10 @@
+target: patch_flow.band_integrators.BandContinuousAsyncSampler
+params:
+  start_ratio: 2.0
+  middle_ratio: 4.0
+  tail_ratio: 2.0
+  start_threshold: 0.2
+  tail_threshold: 0.8
+  leader_ceiling: 0.95
+  easy_multiplier: 2.0
+  middle_multiplier: 1.5

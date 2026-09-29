@@ -1,0 +1,36 @@
+target: patch_flow.trainer_radiomap.RadiomapBandFlowTrainer
+params:
+  model: ${oc.select:model, null}
+  decomposer:
+    target: patch_flow.radial_frequency_bands.FixedRadialBandDecomposer
+    params:
+      artifact_path: ${oc.env:RADIOMAP_BAND_ARTIFACT,/home/rw/patch_matching/analysis_results/radiomapseer_train_bands_seed42/band_masks.npz}
+      spectral_mix_rho: ${spectral_mix_rho}
+      mean_center: 0.27602527060913873
+      mean_scale: 0.07821975390838161
+  flow:
+    target: patch_flow.band_flow.FrequencyBandFlow
+    params:
+      num_bands: 16
+      timestep_sampler:
+        target: patch_flow.radiomap_time_sampling.MacroSynchronizedTimeSampler
+        params:
+          num_bands: 16
+          probabilities: [0.20, 0.20, 0.40, 0.20]
+          macro_step: 0.04
+          start_threshold: 0.2
+          tail_threshold: 0.8
+          max_leaders: 4
+          low_frequency_probability: 0.5
+  input_key: image
+  building_key: building
+  tx_key: tx
+  lr: 1.0e-4
+  weight_decay: 1.0e-4
+  ema_rate: 0.999
+  uncertainty_weight: 0.01
+  mean_weight: 0.2
+  logvar_min: -12.0
+  logvar_max: 8.0
+  validation_seed: 42
+  lr_scheduler_cfg: ${oc.select:lr_scheduler, null}

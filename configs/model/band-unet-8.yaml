@@ -1,0 +1,9 @@
+target: patch_flow.models.band_unet.FrequencyBandUNet
+params:
+  num_bands: 8
+  base_channels: 64
+  channel_multipliers: [1, 2, 4, 4]
+  condition_channels: [32, 64, 128, 128]
+  time_embedding_dim: 32
+  dropout: 0.0
+  gradient_checkpointing: true

@@ -1,0 +1,10 @@
+target: patch_flow.band_integrators.BandMacroSyncAdaptiveSampler
+params:
+  max_macro_step: 0.04
+  max_step: 0.02
+  difficult_substeps: 4
+  reliable_quantile: 0.25
+  max_reliable_logvar: -2.0
+  confidence_streak: 2
+  start_threshold: 0.2
+  tail_threshold: 0.8
